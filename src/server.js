@@ -24,6 +24,10 @@ app.get('/', (req, res, next) => {
   res.status(200).send('RATS make the world a better place.  And so it is written.');
 });
 
+app.get('/health', (req, res, next) => {
+  res.status(200).send('RATS make the world a better place.  And so it is written.');
+});
+
 app.get('/users', handleGetUsers);
 app.get('/users/:id', handleGetUser);
 app.post('/users', handlePostUsers);
