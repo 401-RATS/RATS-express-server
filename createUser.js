@@ -66,7 +66,7 @@ inquirer.prompt(questions).then((answer) => {
           insuranceInformation: answer.insuranceInformation,
         });
       if (res.status === 201) {
-        return console.log(` ${res.status} successfully created ${answer.username} with the role of ${answer.role}`);
+        return console.log(` ${res.status} successfully added ${answer.username} to the RATS database`);
       } else {
         console.log(res.status);
       }
