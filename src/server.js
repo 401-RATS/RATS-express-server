@@ -24,8 +24,13 @@ app.get('/', (req, res, next) => {
   res.status(200).send('RATS make the world a better place.  And so it is written.');
 });
 
-app.get('/users', getUsers);
-async function getUsers(request, response, next) {
+app.get('/users', handleGetUsers);
+app.get('/users/:id', handleGetUser);
+app.post('/users', handlePostUsers);
+app.delete('/users/:id', deleteUsers);
+app.put('/users/:id', putUsers);
+
+async function handleGetUsers(request, response, next) {
   try {
     let results = await User.find();
     response.status(200).send(results);
@@ -34,23 +39,17 @@ async function getUsers(request, response, next) {
   }
 }
 
+async function handleGetUser(request, response, next) {
+  const id = request.params.id;
+  try {
+    const userFromDb = await User.findById(id);
+    response.status(200).send(userFromDb);
+  } catch (error) {
+    console.error(error);
+    response.status(500).send('server error', error);
+  }
+}
 
-// app.get('/users/', handleGetUsers);
-// async function handleGetUsers(req, res) {
-//   console.log('getting Users for', req.body.name);
-//   try {
-//     // const usersFromDb = await User.find({ name: req.query.name });
-//     const usersFromDb = await User.find(req.body.name);
-//     res.status(200).send(usersFromDb);
-//   } catch (e) {
-//     console.error(e);
-//     res.status(500).send('server error', e);
-//   }
-// }
-
-// app.get('/items/:id', Data.getOneItem);
-
-app.post('/users', handlePostUsers);
 async function handlePostUsers(req, res) {
   try {
     console.log('req', req);
@@ -62,7 +61,6 @@ async function handlePostUsers(req, res) {
   }
 }
 
-app.delete('/users/:id', deleteUsers);
 async function deleteUsers(request, response, next) {
   const id = request.params.id;
   console.log(id);
@@ -74,8 +72,6 @@ async function deleteUsers(request, response, next) {
   }
 }
 
-
-app.put('/users/:id', putUsers);
 async function putUsers(request, response, next) {
   let id = request.params.id;
 
@@ -91,10 +87,6 @@ async function putUsers(request, response, next) {
     next(error);
   }
 }
-
-
-
-
 
 // app.use('*', notFound);
 // app.use(errorHandler);
