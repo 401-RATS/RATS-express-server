@@ -5,7 +5,8 @@ const superagent = require('superagent');
 
 console.log('Create User');
 
-const API = 'http://localhost:3002/users';
+const API = process.env.API_URL || 'http://localhost:3002/users';
+
 const questions = [
   {
     type: 'input',
@@ -52,7 +53,7 @@ const questions = [
 
 inquirer.prompt(questions).then((answer) => {
   (async () => {
-    let postRoute = `${API}`;
+    let postRoute = API;
     try {
       const res = await superagent.post(postRoute)
         .send({
