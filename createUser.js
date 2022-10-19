@@ -4,6 +4,8 @@ require('dotenv').config();
 
 
 
+
+
 console.log('Create User');
 
 const API = process.env.API_URL_USER || 'http://localhost:3001/users';
