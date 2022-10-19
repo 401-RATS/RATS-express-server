@@ -6,13 +6,13 @@ require('dotenv').config();
 
 console.log('Create User');
 
-const API = process.env.API_URL || 'http://localhost:3002/users';
+const API = process.env.API_URL_USER || 'http://localhost:3001/users';
 
 const questions = [
   {
     type: 'input',
     name: 'name',
-    message: 'Please enter a username',
+    message: 'Please enter your name',
   },
   {
     type: 'number',
@@ -37,12 +37,12 @@ const questions = [
   {
     type: 'input',
     name: 'allergies',
-    message: 'Please enter any allergies',
+    message: 'Please enter any allergies you may have',
   },
   {
     type: 'input',
     name: 'preExistingConditions',
-    message: 'Please enter any preexisting conditions',
+    message: 'Please enter any preexisting conditions you may have',
   },
   {
     type: 'input',
@@ -68,7 +68,7 @@ inquirer.prompt(questions).then((answer) => {
           insuranceInformation: answer.insuranceInformation,
         });
       if (res.status === 201) {
-        return console.log(` ${res.status} successfully created ${answer.username} with the role of ${answer.role}`);
+        return console.log(` ${res.status} -- successfully created a user profile for ${answer.name}`);
       } else {
         console.log(res.status);
       }
