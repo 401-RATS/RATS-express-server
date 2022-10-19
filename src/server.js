@@ -9,11 +9,11 @@ app.use(express.json());
 const mongoose = require('mongoose');
 const User = require('./models/user.js');
 const Trip = require('./models/trip.js');
-const accountSid = process.env.TWILIO_SID;
-const authToken = process.env.TWILIO_AUTH_TOKEN;
-const MessagingResponse = require('twilio').twiml.MessagingResponse;
-const client = require('twilio')(accountSid, authToken);
-const http = require('http');
+// const accountSid = process.env.TWILIO_SID;
+// const authToken = process.env.TWILIO_AUTH_TOKEN;
+// const MessagingResponse = require('twilio').twiml.MessagingResponse;
+// const client = require('twilio')(accountSid, authToken);
+// const http = require('http');
 const PORT = process.env.PORT || 3002;
 
 // function sendTextMessage() {
@@ -42,17 +42,17 @@ app.get('/health', (req, res, next) => {
 });
 
 // twilio route
-app.post('/sms', (req, res) => {
-  const twiml = new MessagingResponse();
+// app.post('/sms', (req, res) => {
+//   const twiml = new MessagingResponse();
 
-  twiml.message('Gizmo is the King of the Kitties');
-  res.writeHead(200, {'Content-type': 'test/xml'});
-  res.end(twiml.toString());
-});
+//   twiml.message('Gizmo is the King of the Kitties');
+//   res.writeHead(200, {'Content-type': 'test/xml'});
+//   res.end(twiml.toString());
+// });
 
-http.createServer(app).listen(1337, () => {
-  console.log('Express server listening on port 1337');
-});
+// http.createServer(app).listen(1337, () => {
+//   console.log('Express server listening on port 1337');
+// });
 
 
 //trip routes
