@@ -12,19 +12,11 @@ const tripsRouter = require('./routes/trips');
 const notFound = require('./error-handlers/404');
 const errorHandler = require('./error-handlers/500');
 const logger = require('./middleware/logger');
-// const accountSid = process.env.TWILIO_SID;
-// const authToken = process.env.TWILIO_AUTH_TOKEN;
-// const MessagingResponse = require('twilio').twiml.MessagingResponse;
-// const client = require('twilio')(accountSid, authToken);
-// const http = require('http');
+const MessagingResponse = require('twilio').twiml.MessagingResponse;
+const http = require('http');
 const PORT = process.env.PORT || 3002;
+const PORT_TWILIO = process.env.PORT_TWILIO;
 
-// function sendTextMessage() {
-//   client.messages
-//     .create({body: 'Hi there', from: '+12059906539', to: '+420607045690'})
-//     .then(message => console.log(message.sid))
-//     .catch(error => console.log(error));
-// }
 
 mongoose.connect(process.env.DB_URL);
 
@@ -37,7 +29,7 @@ db.once('open', function () {
 app.use(logger);
 
 
-//uber routes
+//happy path routes
 app.get('/', (req, res, next) => {
   res.status(200).send('RATS make the world a better place.  And so it is written.');
 });
@@ -47,30 +39,29 @@ app.get('/health', (req, res, next) => {
 });
 
 // twilio route
-// app.post('/sms', (req, res) => {
-//   const twiml = new MessagingResponse();
+app.post('/sms', (req, res) => {
+  const twiml = new MessagingResponse();
 
-//   twiml.message('Gizmo is the King of the Kitties');
-//   res.writeHead(200, {'Content-type': 'test/xml'});
-//   res.end(twiml.toString());
-// });
+  twiml.message('Gizmo is the King of the Kitties');
+  res.writeHead(200, {'Content-type': 'test/xml'});
+  res.end(twiml.toString());
+});
 
-// http.createServer(app).listen(1337, () => {
-//   console.log('Express server listening on port 1337');
-// });
+http.createServer(app).listen(PORT_TWILIO, () => {
+  console.log(`Express server listening on port ${1337}`);
+});
 
 
-//trip routes
+//user and trip routes
 app.use(usersRouter);
 app.use(tripsRouter);
 
-
+//error handlers
 app.use('*', notFound);
 app.use(errorHandler);
 
 function start(){
   app.listen(PORT, () => console.log('Listening on port', PORT));
-  // sendTextMessage();
 }
 
 module.exports = { app, start };
