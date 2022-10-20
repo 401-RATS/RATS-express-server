@@ -15,8 +15,6 @@ const logger = require('./middleware/logger');
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
 const http = require('http');
 const PORT = process.env.PORT || 3002;
-const PORT_TWILIO = process.env.PORT_TWILIO;
-
 
 mongoose.connect(process.env.DB_URL);
 
@@ -45,10 +43,6 @@ app.post('/sms', (req, res) => {
   twiml.message('Gizmo is the King of the Kitties');
   res.writeHead(200, {'Content-type': 'test/xml'});
   res.end(twiml.toString());
-});
-
-http.createServer(app).listen(PORT_TWILIO, () => {
-  console.log(`Express server listening on port ${1337}`);
 });
 
 
