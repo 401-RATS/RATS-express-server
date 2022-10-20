@@ -1,9 +1,9 @@
 'use strict';
 const mongoose = require('mongoose');
-const { Schema } = mongoose;
-mongoose.connect(process.env.DB_URL);
+// const { Schema } = mongoose;
+// mongoose.connect(process.env.DB_URL);
 
-const userSchema = new Schema({
+const userSchema = new mongoose.Schema({
   name: {type: String, required: true},
   cellNumber: {type: Number, required: true },
   emergencyContactName: {type: String, required: false},
