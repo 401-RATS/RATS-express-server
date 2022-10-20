@@ -2,7 +2,6 @@ const { MongoClient } = require('mongodb');
 const request = require('supertest');
 const { app } = require('../../src/server');
 
-
 const newUser = {
   _id: '6350e512336621c5d6879d3e',
   name: 'Server Test',
@@ -24,7 +23,6 @@ const newTrip = {
   startTimeTrip: 600,
   estEndTimeTrip: 1900,
 };
-
 
 describe('Basic get routes', () => {
   let connection;

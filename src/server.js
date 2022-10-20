@@ -200,12 +200,8 @@ async function putUser(request, response, next) {
   }
 }
 
-// app.use('*', notFound);
-// app.use(errorHandler);
-
 function start(){
   app.listen(PORT, () => console.log('Listening on port', PORT));
-  // sendTextMessage();
 }
 
 module.exports = { app, start };
