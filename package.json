@@ -21,7 +21,6 @@
   },
   "homepage": "https://github.com/dtuskippy/rats-mongo#readme",
   "dependencies": {
-    "@shelf/jest-mongodb": "^4.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "eslint": "^8.25.0",
