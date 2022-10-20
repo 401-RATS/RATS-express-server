@@ -9,7 +9,19 @@ app.use(express.json());
 const mongoose = require('mongoose');
 const User = require('./models/user.js');
 const Trip = require('./models/trip.js');
+// const accountSid = process.env.TWILIO_SID;
+// const authToken = process.env.TWILIO_AUTH_TOKEN;
+// const MessagingResponse = require('twilio').twiml.MessagingResponse;
+// const client = require('twilio')(accountSid, authToken);
+// const http = require('http');
 const PORT = process.env.PORT || 3002;
+
+// function sendTextMessage() {
+//   client.messages
+//     .create({body: 'Hi there', from: '+12059906539', to: '+420607045690'})
+//     .then(message => console.log(message.sid))
+//     .catch(error => console.log(error));
+// }
 
 mongoose.connect(process.env.DB_URL);
 
@@ -29,6 +41,18 @@ app.get('/health', (req, res, next) => {
   res.status(200).send('RATS make the world a better place.  And so it is written.');
 });
 
+// twilio route
+// app.post('/sms', (req, res) => {
+//   const twiml = new MessagingResponse();
+
+//   twiml.message('Gizmo is the King of the Kitties');
+//   res.writeHead(200, {'Content-type': 'test/xml'});
+//   res.end(twiml.toString());
+// });
+
+// http.createServer(app).listen(1337, () => {
+//   console.log('Express server listening on port 1337');
+// });
 
 
 //trip routes
@@ -186,6 +210,7 @@ async function putUser(request, response, next) {
 
 function start(){
   app.listen(PORT, () => console.log('Listening on port', PORT));
+  // sendTextMessage();
 }
 
 module.exports = { app, start };
