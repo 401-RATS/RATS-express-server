@@ -13,7 +13,6 @@ const notFound = require('./error-handlers/404');
 const errorHandler = require('./error-handlers/500');
 const logger = require('./middleware/logger');
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
-const http = require('http');
 const PORT = process.env.PORT || 3002;
 
 mongoose.connect(process.env.DB_URL);
@@ -33,7 +32,7 @@ app.get('/', (req, res, next) => {
 });
 
 app.get('/health', (req, res, next) => {
-  res.status(200).send('RATS make the world a better place.  And so it is written.');
+  res.status(200).send('These RATS are healthy!');
 });
 
 // twilio route
