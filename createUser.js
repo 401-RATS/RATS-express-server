@@ -70,7 +70,8 @@ inquirer.prompt(questions).then((answer) => {
           insuranceInformation: answer.insuranceInformation,
         });
       if (res.status === 201) {
-        return console.log(` ${res.status} -- successfully created a user profile for ${answer.name}`);
+        return console.log(` ${res.status} successfully created ${answer.username} within the RATS database`);
+
       } else {
         console.log(res.status);
       }

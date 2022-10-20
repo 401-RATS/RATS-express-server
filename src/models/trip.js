@@ -1,10 +1,10 @@
 'use strict';
 
 const mongoose = require('mongoose');
-const { Schema } = mongoose;
-mongoose.connect(process.env.DB_URL);
+// const { Schema } = mongoose;
+// mongoose.connect(process.env.DB_URL);
 
-const tripSchema = new Schema({
+const tripSchema = new mongoose.Schema({
   name: {type: String, required: true},
   trip: {type: String, required: true },
   startingLat: {type: Number, required: true},
