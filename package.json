@@ -28,7 +28,6 @@
     "http": "^0.0.1-security",
     "inquirer": "^8.2.4",
     "jest": "^29.2.0",
-    "mongodb-memory-server": "^8.9.3",
     "mongoose": "^6.6.5",
     "supertest": "^6.3.0",
     "twilio": "^3.82.2"
