@@ -7,8 +7,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 const mongoose = require('mongoose');
-const User = require('./models/user.js');
-const Trip = require('./models/trip.js');
+const usersRouter = require('./routes/users');
+const tripsRouter = require('./routes/trips');
+const notFound = require('./error-handlers/404');
+const errorHandler = require('./error-handlers/500');
+const logger = require('./middleware/logger');
 // const accountSid = process.env.TWILIO_SID;
 // const authToken = process.env.TWILIO_AUTH_TOKEN;
 // const MessagingResponse = require('twilio').twiml.MessagingResponse;
@@ -30,6 +33,8 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
   console.log('Mongoose is connected');
 });
+
+app.use(logger);
 
 
 //uber routes
@@ -56,152 +61,16 @@ app.get('/health', (req, res, next) => {
 
 
 //trip routes
+app.use(usersRouter);
+app.use(tripsRouter);
 
 
-app.get('/trips', handleGetTrips);
-app.get('/trips/:id', handleGetTrip);
-// app.get('/trips/name', handleGetTripByName);
-app.post('/trips', handlePostTrip);
-app.delete('/trips/:id', deleteTrip);
-app.put('/trips/:id', putTrip);
-
-
-async function handleGetTrips(request, response, next) {
-  try {
-    let results = await Trip.find();
-    response.status(200).send(results);
-  } catch (error) {
-    next(error);
-  }
-}
-
-async function handleGetTrip(request, response, next) {
-  const id = request.params.id;
-  try {
-    const userFromDb = await Trip.findById(id);
-    response.status(200).send(userFromDb);
-  } catch (error) {
-    console.error(error);
-    response.status(500).send(error);
-  }
-}
-
-// await Adventure.findOne({ country: 'Croatia' }).exec();
-// const favsFromDb = await Fav.find({ email: req.query.email });
-
-// async function handleGetTripByName(request, response, next) {
-//   const { name } = request.query.name;
-//   try {
-//     const userFromDb = await Trip.find(name);
-//     response.status(200).send(userFromDb);
-//   } catch (error) {
-//     console.error(error);
-//     response.status(500).send('server error', error);
-//   }
-// }
-
-async function handlePostTrip(req, res) {
-  try {
-    // console.log('req', req);
-    // console.log('req.body', req.body);
-    const newUser = await Trip.create(req.body);
-    res.status(201).send(newUser);
-  } catch (e) {
-    res.status(500).send('server error', e);
-  }
-}
-
-async function deleteTrip(request, response, next) {
-  const id = request.params.id;
-  // console.log(id);
-  try {
-    await Trip.findByIdAndDelete(id);
-    response.status(204).send('User Deleted');
-  }catch (error) {
-    next(error);
-  }
-}
-
-async function putTrip(request, response, next) {
-  let id = request.params.id;
-  try {
-    let data = request.body;
-    const updateUsers = await Trip.findByIdAndUpdate(id, data, {
-      new: true, overwrite: true,
-    });
-    response.status(201).send(updateUsers);
-  } catch (error) {
-    next(error);
-  }
-}
-
-
-//user routes
-
-
-app.get('/users', handleGetUsers);
-app.get('/users/:id', handleGetUser);
-app.post('/users', handlePostUser);
-app.delete('/users/:id', deleteUser);
-app.put('/users/:id', putUser);
-
-async function handleGetUsers(request, response, next) {
-  try {
-    let results = await User.find();
-    response.status(200).send(results);
-  } catch (error) {
-    next(error);
-  }
-}
-
-async function handleGetUser(request, response, next) {
-  const id = request.params.id;
-  try {
-    const userFromDb = await User.findById(id);
-    response.status(200).send(userFromDb);
-  } catch (error) {
-    console.error(error);
-    response.status(500).send('server error', error);
-  }
-}
-
-async function handlePostUser(req, res) {
-  try {
-    // console.log('req', req);
-    // console.log('req.body', req.body);
-    const newUser = await User.create(req.body);
-    res.status(201).send(newUser);
-  } catch (e) {
-    res.status(500).send('server error', e);
-  }
-}
-
-async function deleteUser(request, response, next) {
-  const id = request.params.id;
-  // console.log(id);
-  try {
-    await User.findByIdAndDelete(id);
-    response.status(204).send('User Deleted');
-  }catch (error) {
-    next(error);
-  }
-}
-
-async function putUser(request, response, next) {
-  let id = request.params.id;
-  try {
-    let data = request.body;
-    const updateUsers = await User.findByIdAndUpdate(id, data, {
-      new: true, overwrite: true,
-    });
-    response.status(201).send(updateUsers);
-  } catch (error) {
-    next(error);
-  }
-}
+app.use('*', notFound);
+app.use(errorHandler);
 
 function start(){
   app.listen(PORT, () => console.log('Listening on port', PORT));
+  // sendTextMessage();
 }
 
 module.exports = { app, start };
