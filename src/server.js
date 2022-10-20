@@ -82,7 +82,7 @@ async function handleGetTrip(request, response, next) {
     response.status(200).send(userFromDb);
   } catch (error) {
     console.error(error);
-    response.status(500).send('server error', error);
+    response.status(500).send(error);
   }
 }
 
@@ -102,8 +102,8 @@ async function handleGetTrip(request, response, next) {
 
 async function handlePostTrip(req, res) {
   try {
-    console.log('req', req);
-    console.log('req.body', req.body);
+    // console.log('req', req);
+    // console.log('req.body', req.body);
     const newUser = await Trip.create(req.body);
     res.status(201).send(newUser);
   } catch (e) {
@@ -113,7 +113,7 @@ async function handlePostTrip(req, res) {
 
 async function deleteTrip(request, response, next) {
   const id = request.params.id;
-  console.log(id);
+  // console.log(id);
   try {
     await Trip.findByIdAndDelete(id);
     response.status(204).send('User Deleted');
@@ -124,23 +124,21 @@ async function deleteTrip(request, response, next) {
 
 async function putTrip(request, response, next) {
   let id = request.params.id;
-
   try {
     let data = request.body;
-
     const updateUsers = await Trip.findByIdAndUpdate(id, data, {
       new: true, overwrite: true,
     });
     response.status(201).send(updateUsers);
-
   } catch (error) {
     next(error);
   }
 }
 
 
-
 //user routes
+
+
 app.get('/users', handleGetUsers);
 app.get('/users/:id', handleGetUser);
 app.post('/users', handlePostUser);
@@ -169,8 +167,8 @@ async function handleGetUser(request, response, next) {
 
 async function handlePostUser(req, res) {
   try {
-    console.log('req', req);
-    console.log('req.body', req.body);
+    // console.log('req', req);
+    // console.log('req.body', req.body);
     const newUser = await User.create(req.body);
     res.status(201).send(newUser);
   } catch (e) {
@@ -180,7 +178,7 @@ async function handlePostUser(req, res) {
 
 async function deleteUser(request, response, next) {
   const id = request.params.id;
-  console.log(id);
+  // console.log(id);
   try {
     await User.findByIdAndDelete(id);
     response.status(204).send('User Deleted');
@@ -191,26 +189,19 @@ async function deleteUser(request, response, next) {
 
 async function putUser(request, response, next) {
   let id = request.params.id;
-
   try {
     let data = request.body;
-
     const updateUsers = await User.findByIdAndUpdate(id, data, {
       new: true, overwrite: true,
     });
     response.status(201).send(updateUsers);
-
   } catch (error) {
     next(error);
   }
 }
 
-// app.use('*', notFound);
-// app.use(errorHandler);
-
 function start(){
   app.listen(PORT, () => console.log('Listening on port', PORT));
-  // sendTextMessage();
 }
 
 module.exports = { app, start };
