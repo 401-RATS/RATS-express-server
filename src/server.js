@@ -12,7 +12,6 @@ const tripsRouter = require('./routes/trips');
 const notFound = require('./error-handlers/404');
 const errorHandler = require('./error-handlers/500');
 const logger = require('./middleware/logger');
-const MessagingResponse = require('twilio').twiml.MessagingResponse;
 const PORT = process.env.PORT || 3002;
 
 mongoose.connect(process.env.DB_URL);
@@ -35,14 +34,7 @@ app.get('/health', (req, res, next) => {
   res.status(200).send('These RATS are healthy!');
 });
 
-// twilio route
-app.post('/sms', (req, res) => {
-  const twiml = new MessagingResponse();
 
-  twiml.message('Gizmo is the King of the Kitties');
-  res.writeHead(200, {'Content-type': 'test/xml'});
-  res.end(twiml.toString());
-});
 
 
 //user and trip routes
